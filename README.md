@@ -1,4 +1,3 @@
-[IdentityNotesReadMe.md](https://github.com/user-attachments/files/25572073/IdentityNotesReadMe.md)
 # Identity `Notes`
 
 ## Steps to make identity Layer
@@ -24,7 +23,9 @@
    - Remember to add ` base.OnModelCreating(modelBuilder);` at `OnModelCreating(...)`
 
 4. Add - Migration
-5. Make ur Controller AccountService
+5. Make ur Controller AccountService , ViewModel , Mapping (viewmodel -> ApplicationUser
+) , Create User Using `UserManager` then check if it created using IdentityResult
+we make the cookie using `SignInManager`
    ```csharp
    public class AccountController : Controller
     {
@@ -77,7 +78,15 @@
             return View("Register", userViewModel);
         }
    ```
-
+6. Register Service in the `Program.cs`
+   ```csharp
+   builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
+   .AddEntityFrameworkStores<OurContext>()
+   .AddDefaultTokenProviders();
+   ```
+   - We just need to register the identity 
+   - We Iject `AddIdentity` msh `AddIdentityCore` leah b2a ? 3shan
+   IdentityCore bta3mel el user bas 
 ### <h3 style="color: tomato;"> Remember That</h3>
 | Table | Class | Service | Repository| Context|
 |-----------|---------|------------|------------|------------|
