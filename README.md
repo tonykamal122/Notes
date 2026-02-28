@@ -77,35 +77,6 @@ we make the cookie using `SignInManager`
             }
             return View("Register", userViewModel);
         }
-   [HttpPost]
-public async Task<IActionResult> SaveLogin(LoginUserViewModel userViewModel)
-{
-    if (ModelState.IsValid)
-    {
-        // 1- find user by username
-        ApplicationUser? appUser =
-            await UserManager.FindByNameAsync(userViewModel.UserName);
-
-        if (appUser != null)
-        {
-            // 2- check password
-            bool found =
-                await UserManager.CheckPasswordAsync(appUser, userViewModel.Password);
-
-            if (found)
-            {
-                // 3- create cookie
-                await SignInManager.SignInAsync(appUser, userViewModel.RememberMe);
-
-                return RedirectToAction("Index", "Home");
-            }
-        }
-
-        ModelState.AddModelError("", "Username OR Password Wrong");
-    }
-
-    return View("Login", userViewModel);
-}
    ```
 6. Register Service in the `Program.cs`
    ```csharp
