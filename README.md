@@ -159,3 +159,35 @@ tab law ana 3ayez el id b2a?
 User is a context then make a query like
 context.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)
 var id = idClaim?.Value;
+
+```csharp
+[HttpPost]
+public async Task<IActionResult> SaveLogin(LoginUserViewModel userViewModel)
+{
+    if (ModelState.IsValid)
+    {
+        // 1- find user by username
+        ApplicationUser? appUser =
+            await UserManager.FindByNameAsync(userViewModel.UserName);
+
+        if (appUser != null)
+        {
+            // 2- check password
+            bool found =
+                await UserManager.CheckPasswordAsync(appUser, userViewModel.Password);
+
+            if (found)
+            {
+                // 3- create cookie
+                await SignInManager.SignInAsync(appUser, userViewModel.RememberMe);
+
+                return RedirectToAction("Index", "Home");
+            }
+        }
+
+        ModelState.AddModelError("", "Username OR Password Wrong");
+    }
+
+    return View("Login", userViewModel);
+}
+```
