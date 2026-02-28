@@ -77,7 +77,7 @@ we make the cookie using `SignInManager`
             }
             return View("Register", userViewModel);
         }
-    [HttpPost]
+   [HttpPost]
 public async Task<IActionResult> SaveLogin(LoginUserViewModel userViewModel)
 {
     if (ModelState.IsValid)
